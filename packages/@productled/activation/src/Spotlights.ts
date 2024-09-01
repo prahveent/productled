@@ -1,5 +1,5 @@
 import { Spotlight, Content, Design, Positioning } from './Spotlight';
-
+import URLChangeListener, { URLListnerResponse } from './internal-utils/urlChangeListener';
 // Define the Trigger interface
 interface Trigger {
     url: string;
@@ -34,21 +34,46 @@ export class Spotlights {
 
     // Apply effects to the current page
     static applyEffects(): void {
-        removeSpotlights(); // Remove existing spotlights
-        const currentURL = window.location.pathname;
 
-        for (const flow of this.flows) {
-            const { trigger } = flow;
-
-            if (trigger.url === currentURL) {
-                const targetElement = document.querySelector(trigger.element);
-
-                if (targetElement) {
-                    const spotlight = new Spotlight(targetElement, flow.content, flow.design, flow.positioning);
-                    spotlight.create(); // Create the spotlight
+        const listener = new URLChangeListener((listenerResponse : URLListnerResponse) => {
+            // Add your custom logic here
+            this.flows.map(flow => {
+                const { trigger } = flow;
+                if(trigger.url != listenerResponse.currentPath) {
+                    removeSpotlights(); // Remove existing spotlights
                 }
-            }
-        }
+
+                if (trigger.url === listenerResponse.currentPath) {
+                    const targetElement = document.querySelector(trigger.element);
+                    if (targetElement) {
+                        const spotlight = new Spotlight(targetElement, flow.content, flow.design, flow.positioning);
+                        spotlight.create(); // Create the spotlight
+                    }
+                }
+
+            })
+
+            
+
+          });
+      
+          // Start the listener
+          listener.init();
+
+        //const currentURL = window.location.pathname;
+
+        // for (const flow of this.flows) {
+        //     const { trigger } = flow;
+
+        //     if (trigger.url === currentURL) {
+        //         const targetElement = document.querySelector(trigger.element);
+
+        //         if (targetElement) {
+        //             const spotlight = new Spotlight(targetElement, flow.content, flow.design, flow.positioning);
+        //             spotlight.create(); // Create the spotlight
+        //         }
+        //     }
+        // }
     }
 }
 
