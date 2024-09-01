@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Spotlights, Flow } from '@productled/activation';
 import './NavBar.css'; // Import the CSS file
 import { spotlights } from './ProductledConf';
@@ -10,7 +10,7 @@ const NavBar: React.FC = () => {
 
   useEffect(() => {
     Spotlights.applyEffects();
-  }, [useLocation()]);
+  }, []);
 
   Spotlights.add(spotlights);
 
