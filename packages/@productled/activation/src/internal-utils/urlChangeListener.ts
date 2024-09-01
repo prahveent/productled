@@ -1,11 +1,11 @@
 class URLChangeListener {
-    private listnerResonse : URLListnerResponse;
-    private callback: (listenerResponse : URLListnerResponse) => void;
+    private listnerResonse : URLListenerResponse;
+    private callback: (listenerResponse : URLListenerResponse) => void;
     private interval: number;
     private observer: MutationObserver | null = null;
     private intervalId: number | null = null;
 
-    constructor(callback: (listenerResponse : URLListnerResponse) => void, interval: number = 1000) {
+    constructor(callback: (listenerResponse : URLListenerResponse) => void, interval: number = 1000) {
         this.callback = callback;
         this.interval = interval;
         this.listnerResonse = {
@@ -37,7 +37,7 @@ class URLChangeListener {
                 previousPath : this.listnerResonse.currentPath,
                 currentUrl : window.location.href,
                 currentPath : window.location.pathname
-            } as URLListnerResponse
+            } as URLListenerResponse
             this.callback(response);
             this.listnerResonse = response;
         }
@@ -52,7 +52,7 @@ class URLChangeListener {
     }
 }
 
-export interface URLListnerResponse
+export interface URLListenerResponse
 {
     previousUrl : string,
     currentUrl : string,
